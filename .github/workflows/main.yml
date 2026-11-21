@@ -11,12 +11,16 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.7'
-      - run: gradle assembleDebug
-        working-directory: ./app
+      - uses: android-actions/setup-android@v3
+      - name: Instalar Build-Tools e Platform 34
+        run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+      - name: Rodar build.sh do projeto
+        run: |
+          SCRIPT=$(find . -maxdepth 3 -name "build.sh" | head -n 1)
+          chmod +x "$SCRIPT"
+          cd "$(dirname "$SCRIPT")"
+          ./build.sh
       - uses: actions/upload-artifact@v4
         with:
           name: weatherglass-apk
-          path: app/**/build/outputs/apk/debug/*.apk
+          path: "**/*.apk"
