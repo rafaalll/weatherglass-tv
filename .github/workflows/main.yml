@@ -11,9 +11,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - uses: android-actions/setup-android@v3
-      - name: Instalar Build-Tools e Platform 34
-        run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+      - name: Instalar SDK 34 direto
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0"
       - name: Rodar build.sh do projeto
         run: |
           SCRIPT=$(find . -maxdepth 3 -name "build.sh" | head -n 1)
